@@ -1,0 +1,1245 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #07111f;
+    --panel: rgba(8, 20, 36, 0.92);
+    --border: rgba(255, 255, 255, 0.15);
+    --text: #ffffff;
+    --green: #27e36b;
+    --red: #ff3b4f;
+    --gold: #ffd43b;
+    --blue: #35a7ff;
+    --purple: #b66cff;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(
+            circle at top,
+            #16365a,
+            #07111f 65%
+        );
+    color: var(--text);
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================
+   MENU
+========================= */
+
+.screen {
+    width: 100vw;
+    height: 100vh;
+}
+
+.menu-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+
+    background:
+        linear-gradient(
+            rgba(3, 10, 20, 0.55),
+            rgba(3, 10, 20, 0.85)
+        ),
+        radial-gradient(
+            circle at center,
+            #173c5f,
+            #040a12
+        );
+}
+
+.menu-box {
+    width: min(520px, 94vw);
+    padding: 35px;
+
+    text-align: center;
+
+    background: var(--panel);
+
+    border: 1px solid var(--border);
+    border-radius: 28px;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.6);
+
+    animation: menuAppear 0.6s ease;
+}
+
+.game-logo {
+    font-size: 70px;
+
+    animation:
+        float 2s ease-in-out infinite;
+}
+
+.menu-box h1 {
+    margin-top: 10px;
+
+    font-size: clamp(32px, 7vw, 58px);
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        0 0 20px rgba(53, 167, 255, 0.7);
+}
+
+.subtitle {
+    margin: 10px 0 25px;
+
+    color: #b9d9f5;
+}
+
+#playerName {
+    width: 100%;
+    padding: 15px;
+
+    color: white;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    outline: none;
+
+    text-align: center;
+}
+
+#playerName:focus {
+    border-color: var(--blue);
+
+    box-shadow:
+        0 0 15px rgba(53, 167, 255, 0.3);
+}
+
+.difficulty-box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+
+    margin: 18px 0;
+}
+
+.difficulty {
+    padding: 12px 5px;
+
+    color: white;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    transition: 0.2s;
+}
+
+.difficulty:hover {
+    transform: translateY(-2px);
+}
+
+.difficulty.active {
+    border-color: var(--blue);
+
+    background: rgba(53, 167, 255, 0.2);
+
+    box-shadow:
+        0 0 15px rgba(53, 167, 255, 0.25);
+}
+
+.main-btn,
+.secondary-btn {
+    width: 100%;
+
+    padding: 15px;
+
+    margin-top: 10px;
+
+    border: 0;
+    border-radius: 14px;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+.main-btn {
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1887ff,
+            #6845ff
+        );
+
+    box-shadow:
+        0 10px 25px rgba(24, 135, 255, 0.25);
+}
+
+.main-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 15px 30px rgba(24, 135, 255, 0.35);
+}
+
+.secondary-btn {
+    color: white;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border: 1px solid var(--border);
+}
+
+.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.best-record {
+    margin-top: 22px;
+
+    color: #c8d8e8;
+}
+
+.best-record span {
+    color: var(--gold);
+
+    font-weight: bold;
+}
+
+.menu-box footer {
+    margin-top: 25px;
+
+    color: #7590aa;
+
+    letter-spacing: 3px;
+}
+
+
+/* =========================
+   GAME
+========================= */
+
+.game-screen {
+    position: relative;
+
+    background: #07130c;
+}
+
+.hud {
+    position: absolute;
+
+    z-index: 100;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    min-height: 90px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(240px, 1fr)
+        auto
+        auto;
+
+    gap: 20px;
+
+    align-items: center;
+
+    padding: 12px 18px;
+
+    background:
+        linear-gradient(
+            rgba(3, 12, 8, 0.95),
+            rgba(3, 12, 8, 0.75)
+        );
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.1);
+
+    backdrop-filter: blur(12px);
+}
+
+.player-name {
+    margin-bottom: 6px;
+
+    font-weight: bold;
+}
+
+.bar-box {
+    max-width: 280px;
+
+    margin-bottom: 5px;
+}
+
+.bar-label {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 3px;
+
+    font-size: 11px;
+
+    color: #dce9f5;
+}
+
+.bar {
+    height: 9px;
+
+    overflow: hidden;
+
+    background: rgba(255, 255, 255, 0.1);
+
+    border-radius: 20px;
+}
+
+.hp-fill,
+.xp-fill,
+.boss-hp-fill {
+    width: 100%;
+    height: 100%;
+
+    transition: width 0.2s ease;
+}
+
+.hp-fill {
+    background:
+        linear-gradient(
+            90deg,
+            #ff304f,
+            #ff7b35
+        );
+}
+
+.xp-fill {
+    background:
+        linear-gradient(
+            90deg,
+            #3d9cff,
+            #a55cff
+        );
+}
+
+.hud-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    justify-content: center;
+}
+
+.hud-stats div {
+    padding: 8px 11px;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    border-radius: 10px;
+
+    font-size: 12px;
+}
+
+.hud-stats strong {
+    color: var(--gold);
+}
+
+.hud-buttons {
+    display: flex;
+    gap: 7px;
+}
+
+.hud-buttons button {
+    width: 42px;
+    height: 42px;
+
+    color: white;
+
+    background: rgba(255, 255, 255, 0.1);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    transition: 0.2s;
+}
+
+.hud-buttons button:hover {
+    transform: translateY(-2px);
+
+    background: rgba(255, 255, 255, 0.18);
+}
+
+
+/* =========================
+   WORLD
+========================= */
+
+.world {
+    position: absolute;
+
+    top: 90px;
+    left: 0;
+    right: 0;
+    bottom: 72px;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(48, 121, 67, 0.45),
+            transparent 50%
+        ),
+        linear-gradient(
+            135deg,
+            #102b17,
+            #07180d
+        );
+
+    background-image:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.035) 1px,
+            transparent 1px
+        );
+
+    background-size: 35px 35px;
+}
+
+.world::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            transparent 0 25%,
+            rgba(0, 0, 0, 0.3) 100%
+        );
+
+    pointer-events: none;
+}
+
+.tree,
+.rock {
+    position: absolute;
+
+    user-select: none;
+
+    opacity: 0.75;
+
+    filter:
+        drop-shadow(
+            0 8px 5px rgba(0, 0, 0, 0.45)
+        );
+}
+
+.tree {
+    font-size: 60px;
+}
+
+.rock {
+    font-size: 45px;
+}
+
+.tree1 {
+    left: 7%;
+    top: 22%;
+}
+
+.tree2 {
+    left: 20%;
+    top: 65%;
+}
+
+.tree3 {
+    right: 10%;
+    top: 20%;
+}
+
+.tree4 {
+    right: 25%;
+    bottom: 12%;
+}
+
+.rock1 {
+    left: 40%;
+    top: 20%;
+}
+
+.rock2 {
+    right: 38%;
+    top: 70%;
+}
+
+.rock3 {
+    left: 65%;
+    top: 35%;
+}
+
+
+/* =========================
+   PLAYER
+========================= */
+
+.player {
+    position: absolute;
+
+    z-index: 20;
+
+    width: 65px;
+    height: 65px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 50px;
+
+    user-select: none;
+
+    filter:
+        drop-shadow(
+            0 7px 7px rgba(0, 0, 0, 0.6)
+        );
+
+    transition:
+        filter 0.1s;
+}
+
+
+/* =========================
+   MONSTERS
+========================= */
+
+.monster-container,
+.projectile-container,
+.effect-container,
+.damage-container {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+}
+
+.monster {
+    position: absolute;
+
+    z-index: 15;
+
+    width: 70px;
+    height: 75px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 52px;
+
+    user-select: none;
+
+    filter:
+        drop-shadow(
+            0 8px 7px rgba(0, 0, 0, 0.6)
+        );
+
+    animation:
+        monsterFloat 1.5s ease-in-out infinite;
+}
+
+.monster-hit {
+    animation:
+        monsterHit 0.2s ease;
+}
+
+.monster-health {
+    position: absolute;
+
+    top: -5px;
+
+    width: 60px;
+    height: 6px;
+
+    overflow: hidden;
+
+    background: #22070b;
+
+    border-radius: 10px;
+}
+
+.monster-health-fill {
+    width: 100%;
+    height: 100%;
+
+    background: var(--red);
+
+    transition: width 0.15s;
+}
+
+.boss-monster {
+    z-index: 30;
+
+    width: 100px;
+    height: 100px;
+
+    animation:
+        bossFloat 1.2s ease-in-out infinite;
+
+    filter:
+        drop-shadow(
+            0 0 18px rgba(255, 40, 60, 0.7)
+        );
+}
+
+
+/* =========================
+   PROJECTILE
+========================= */
+
+.projectile {
+    position: absolute;
+
+    z-index: 25;
+
+    width: 35px;
+    height: 5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #ffd43b
+        );
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 0 10px #ffd43b;
+}
+
+
+/* =========================
+   EFFECTS
+========================= */
+
+.hit-effect {
+    position: absolute;
+
+    width: 65px;
+    height: 65px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #fff 0 5%,
+            #ffd43b 10%,
+            #ff6737 35%,
+            transparent 70%
+        );
+
+    animation:
+        explosion 0.45s ease forwards;
+}
+
+
+/* =========================
+   DAMAGE
+========================= */
+
+.damage-number {
+    position: absolute;
+
+    z-index: 80;
+
+    color: #fff;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    text-shadow:
+        2px 2px 3px #000;
+
+    pointer-events: none;
+
+    animation:
+        damageFloat 0.8s ease forwards;
+}
+
+.damage-number.critical {
+    color: var(--gold);
+
+    font-size: 25px;
+
+    text-shadow:
+        0 0 10px #ff6a00,
+        2px 2px 3px #000;
+}
+
+
+/* =========================
+   BOSS PANEL
+========================= */
+
+.boss-panel {
+    position: absolute;
+
+    z-index: 110;
+
+    top: 100px;
+    left: 50%;
+
+    width: min(420px, 75vw);
+
+    transform: translateX(-50%);
+
+    padding: 10px;
+
+    text-align: center;
+
+    background: rgba(20, 4, 8, 0.8);
+
+    border:
+        1px solid rgba(255, 50, 70, 0.4);
+
+    border-radius: 12px;
+}
+
+.boss-title {
+    margin-bottom: 5px;
+
+    color: #ff5264;
+
+    font-weight: bold;
+}
+
+.boss-bar {
+    height: 13px;
+
+    overflow: hidden;
+
+    background: #28070c;
+
+    border-radius: 20px;
+}
+
+.boss-hp-fill {
+    background:
+        linear-gradient(
+            90deg,
+            #ff1f45,
+            #ff7b00
+        );
+}
+
+.boss-hp-text {
+    margin-top: 3px;
+
+    font-size: 11px;
+}
+
+
+/* =========================
+   CONTROLS
+========================= */
+
+.controls {
+    position: absolute;
+
+    z-index: 100;
+
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+
+    height: 72px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 12px;
+
+    background:
+        rgba(3, 10, 7, 0.92);
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.1);
+}
+
+.control-btn {
+    min-width: 90px;
+
+    height: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 7px;
+
+    color: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 13px;
+
+    font-weight: bold;
+
+    transition: 0.15s;
+}
+
+.control-btn:hover {
+    transform: translateY(-2px);
+}
+
+.shoot-btn {
+    background:
+        linear-gradient(
+            135deg,
+            #087cff,
+            #1550d8
+        );
+}
+
+.melee-btn {
+    background:
+        linear-gradient(
+            135deg,
+            #e6324b,
+            #9c1830
+        );
+}
+
+.potion-btn {
+    background:
+        linear-gradient(
+            135deg,
+            #7b3cff,
+            #4d1caf
+        );
+}
+
+.mobile-info {
+    margin-left: 15px;
+
+    color: #94a9bb;
+
+    font-size: 11px;
+}
+
+.game-footer {
+    position: absolute;
+
+    z-index: 120;
+
+    right: 12px;
+    bottom: 5px;
+
+    color: rgba(255, 255, 255, 0.4);
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================
+   MODALS
+========================= */
+
+.modal {
+    position: fixed;
+
+    z-index: 1000;
+
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    background:
+        rgba(0, 0, 0, 0.72);
+
+    backdrop-filter: blur(8px);
+}
+
+.modal-box {
+    width: min(440px, 94vw);
+
+    padding: 30px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #101f31,
+            #07111d
+        );
+
+    border:
+        1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 30px 100px rgba(0, 0, 0, 0.8);
+
+    animation:
+        modalAppear 0.3s ease;
+}
+
+.modal-box h2 {
+    margin-bottom: 12px;
+
+    font-size: 35px;
+}
+
+.instructions {
+    text-align: left;
+
+    margin: 20px 0;
+}
+
+.instructions p {
+    margin: 10px 0;
+
+    color: #c9d8e6;
+}
+
+.big-icon {
+    font-size: 70px;
+
+    animation:
+        float 1.5s ease-in-out infinite;
+}
+
+.victory-box h2 {
+    color: var(--gold);
+}
+
+.gameover-box h2 {
+    color: var(--red);
+}
+
+.result {
+    margin: 18px 0;
+
+    padding: 15px;
+
+    background:
+        rgba(255, 255, 255, 0.05);
+
+    border-radius: 15px;
+}
+
+.result p {
+    margin: 8px;
+}
+
+.result b {
+    color: var(--gold);
+}
+
+.new-record {
+    margin: 15px 0;
+
+    color: var(--gold);
+
+    font-weight: bold;
+
+    animation:
+        pulse 1s infinite;
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes menuAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes monsterFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes bossFloat {
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-8px) scale(1.05);
+    }
+}
+
+@keyframes monsterHit {
+    0% {
+        transform: translateX(0);
+    }
+
+    30% {
+        transform: translateX(-8px);
+    }
+
+    70% {
+        transform: translateX(8px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes explosion {
+    from {
+        opacity: 1;
+        transform: scale(0.3);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(1.8);
+    }
+}
+
+@keyframes damageFloat {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-55px) scale(1.2);
+    }
+}
+
+@keyframes pulse {
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    .hud {
+        grid-template-columns: 1fr auto;
+
+        min-height: 105px;
+
+        padding: 8px;
+    }
+
+    .hud-stats {
+        position: absolute;
+
+        left: 50%;
+        bottom: -35px;
+
+        transform: translateX(-50%);
+
+        width: 95%;
+
+        padding: 5px;
+
+        background:
+            rgba(3, 12, 8, 0.75);
+
+        border-radius: 12px;
+    }
+
+    .hud-stats div {
+        padding: 5px 7px;
+    }
+
+    .world {
+        top: 105px;
+    }
+
+    .bar-box {
+        max-width: 190px;
+    }
+
+    .controls {
+        height: 68px;
+
+        gap: 7px;
+    }
+
+    .control-btn {
+        min-width: 72px;
+
+        height: 48px;
+
+        font-size: 12px;
+    }
+
+    .mobile-info {
+        display: none;
+    }
+
+    .tree {
+        font-size: 45px;
+    }
+
+    .rock {
+        font-size: 35px;
+    }
+
+    .player {
+        width: 55px;
+        height: 55px;
+
+        font-size: 42px;
+    }
+
+    .monster {
+        width: 60px;
+        height: 65px;
+
+        font-size: 45px;
+    }
+
+    .boss-monster {
+        font-size: 70px !important;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .menu-box {
+        padding: 22px;
+    }
+
+    .menu-box h1 {
+        font-size: 30px;
+    }
+
+    .game-logo {
+        font-size: 55px;
+    }
+
+    .difficulty {
+        font-size: 10px;
+    }
+
+    .hud-buttons button {
+        width: 35px;
+        height: 35px;
+    }
+
+    .hud {
+        min-height: 95px;
+    }
+
+    .world {
+        top: 95px;
+    }
+
+    .player-name {
+        font-size: 12px;
+    }
+
+    .bar-label {
+        font-size: 9px;
+    }
+
+    .bar-box {
+        max-width: 150px;
+    }
+
+    .control-btn {
+        min-width: 65px;
+
+        font-size: 10px;
+    }
+
+    .control-btn span {
+        font-size: 9px;
+    }
+}
+

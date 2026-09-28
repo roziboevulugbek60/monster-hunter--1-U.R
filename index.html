@@ -1,0 +1,546 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Monster Hunter | ULUG'BEK.R</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+<!-- =========================
+     MENU
+========================= -->
+
+<section id="menuScreen" class="screen menu-screen">
+
+    <div class="menu-box">
+
+        <div class="game-logo">
+            🏹
+        </div>
+
+        <h1>MONSTER HUNTER</h1>
+
+        <p class="subtitle">
+            Monsters bilan jang qil!
+        </p>
+
+        <input
+            id="playerName"
+            type="text"
+            maxlength="20"
+            placeholder="Hunter nomini kiriting"
+        >
+
+        <div class="difficulty-box">
+
+            <button
+                class="difficulty active"
+                data-difficulty="easy"
+            >
+                🟢 OSON
+            </button>
+
+            <button
+                class="difficulty"
+                data-difficulty="medium"
+            >
+                🟡 O'RTA
+            </button>
+
+            <button
+                class="difficulty"
+                data-difficulty="hard"
+            >
+                🔴 QIYIN
+            </button>
+
+        </div>
+
+        <button
+            id="startBtn"
+            class="main-btn"
+        >
+            ⚔️ O'YINNI BOSHLASH
+        </button>
+
+        <button
+            id="instructionsBtn"
+            class="secondary-btn"
+        >
+            📖 QOIDALAR
+        </button>
+
+        <div class="best-record">
+            🏆 Eng yaxshi rekord:
+            <span id="bestScore">0</span>
+        </div>
+
+        <footer>
+            ULUG'BEK.R
+        </footer>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     GAME
+========================= -->
+
+<section
+    id="gameScreen"
+    class="screen game-screen hidden"
+>
+
+    <!-- HUD -->
+
+    <div class="hud">
+
+        <div class="hud-player">
+
+            <div class="player-name">
+                🧙 <span id="displayName">Hunter</span>
+            </div>
+
+            <div class="bar-box">
+                <div class="bar-label">
+                    ❤️ HP
+                    <span id="playerHp">
+                        100 / 100
+                    </span>
+                </div>
+
+                <div class="bar">
+                    <div
+                        id="playerHpBar"
+                        class="hp-fill"
+                    ></div>
+                </div>
+            </div>
+
+            <div class="bar-box">
+                <div class="bar-label">
+                    ⭐ XP
+                    <span id="xpText">
+                        0 / 100
+                    </span>
+                </div>
+
+                <div class="bar">
+                    <div
+                        id="xpBar"
+                        class="xp-fill"
+                    ></div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="hud-stats">
+
+            <div>
+                ⭐ Level
+                <strong id="level">1</strong>
+            </div>
+
+            <div>
+                💰
+                <strong id="coins">0</strong>
+            </div>
+
+            <div>
+                👹
+                <strong id="kills">0</strong>
+            </div>
+
+            <div>
+                🎯
+                <strong id="score">0</strong>
+            </div>
+
+            <div>
+                ⏱️
+                <strong id="gameTimer">00:00</strong>
+            </div>
+
+        </div>
+
+
+        <div class="hud-buttons">
+
+            <button id="soundBtn">
+                🔊
+            </button>
+
+            <button id="pauseBtn">
+                ⏸️
+            </button>
+
+            <button id="restartBtn">
+                🔄
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- BOSS HUD -->
+
+    <div
+        id="bossPanel"
+        class="boss-panel hidden"
+    >
+
+        <div class="boss-title">
+            👹 BOSS
+        </div>
+
+        <div class="boss-bar">
+            <div
+                id="bossHpBar"
+                class="boss-hp-fill"
+            ></div>
+        </div>
+
+        <div
+            id="bossHpText"
+            class="boss-hp-text"
+        >
+            0 / 0
+        </div>
+
+    </div>
+
+
+    <!-- WORLD -->
+
+    <div
+        id="world"
+        class="world"
+    >
+
+        <!-- Background objects -->
+
+        <div class="tree tree1">🌲</div>
+        <div class="tree tree2">🌳</div>
+        <div class="tree tree3">🌲</div>
+        <div class="tree tree4">🌳</div>
+
+        <div class="rock rock1">🪨</div>
+        <div class="rock rock2">🪨</div>
+        <div class="rock rock3">🪨</div>
+
+        <!-- Player -->
+
+        <div
+            id="player"
+            class="player"
+        >
+            🧙
+        </div>
+
+        <!-- Containers -->
+
+        <div
+            id="monsterContainer"
+            class="monster-container"
+        ></div>
+
+        <div
+            id="projectileContainer"
+            class="projectile-container"
+        ></div>
+
+        <div
+            id="effectContainer"
+            class="effect-container"
+        ></div>
+
+        <div
+            id="damageContainer"
+            class="damage-container"
+        ></div>
+
+    </div>
+
+
+    <!-- BOTTOM CONTROLS -->
+
+    <div class="controls">
+
+        <button
+            id="attackBtn"
+            class="control-btn shoot-btn"
+        >
+            🏹
+            <span>OTISH</span>
+        </button>
+
+        <button
+            id="meleeBtn"
+            class="control-btn melee-btn"
+        >
+            ⚔️
+            <span>HUJUM</span>
+        </button>
+
+        <button
+            id="potionBtn"
+            class="control-btn potion-btn"
+        >
+            🧪
+            <span id="potionCount">3</span>
+        </button>
+
+        <div class="mobile-info">
+            WASD / ↑↓←→
+        </div>
+
+    </div>
+
+
+    <footer class="game-footer">
+        ULUG'BEK.R
+    </footer>
+
+</section>
+
+
+<!-- =========================
+     INSTRUCTIONS MODAL
+========================= -->
+
+<div
+    id="instructionsModal"
+    class="modal hidden"
+>
+
+    <div class="modal-box">
+
+        <h2>📖 QOIDALAR</h2>
+
+        <div class="instructions">
+
+            <p>🏃 <b>WASD / Arrow</b> — harakat</p>
+
+            <p>🏹 <b>Mouse / SPACE</b> — o'q otish</p>
+
+            <p>⚔️ <b>HUJUM</b> — yaqin masofadan zarba</p>
+
+            <p>🧪 <b>POTION</b> — HP tiklash</p>
+
+            <p>👹 Har 10 ta killdan keyin BOSS chiqadi</p>
+
+            <p>⭐ Monsterlarni yengib XP yig'ing</p>
+
+            <p>💰 Coin yig'ing</p>
+
+            <p>🎯 Critical hit olish imkoniyati mavjud</p>
+
+            <p>🏆 Bossni yengsangiz VICTORY!</p>
+
+        </div>
+
+        <button
+            id="closeInstructionsBtn"
+            class="main-btn"
+        >
+            TUSHUNDIM
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PAUSE MODAL
+========================= -->
+
+<div
+    id="pauseModal"
+    class="modal hidden"
+>
+
+    <div class="modal-box">
+
+        <h2>⏸️ PAUSE</h2>
+
+        <p>
+            O'yin vaqtincha to'xtatildi.
+        </p>
+
+        <button
+            id="resumeBtn"
+            class="main-btn"
+        >
+            ▶️ DAVOM ETISH
+        </button>
+
+        <button
+            id="pauseMenuBtn"
+            class="secondary-btn"
+        >
+            🏠 MENYU
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     VICTORY
+========================= -->
+
+<div
+    id="victoryModal"
+    class="modal hidden"
+>
+
+    <div class="modal-box victory-box">
+
+        <div class="big-icon">
+            🏆
+        </div>
+
+        <h2>VICTORY!</h2>
+
+        <p>
+            BOSS mag'lub etildi!
+        </p>
+
+        <div class="result">
+
+            <p>
+                👹 Kill:
+                <b id="victoryKills">0</b>
+            </p>
+
+            <p>
+                💰 Coin:
+                <b id="victoryCoins">0</b>
+            </p>
+
+            <p>
+                ⭐ XP:
+                <b id="victoryXp">0</b>
+            </p>
+
+            <p>
+                🎯 Score:
+                <b id="victoryScore">0</b>
+            </p>
+
+        </div>
+
+        <div
+            id="newRecord"
+            class="new-record hidden"
+        >
+            🏆 YANGI REKORD!
+        </div>
+
+        <button
+            id="playAgainBtn"
+            class="main-btn"
+        >
+            🔄 QAYTA O'YNASH
+        </button>
+
+        <button
+            id="victoryMenuBtn"
+            class="secondary-btn"
+        >
+            🏠 MENYU
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     GAME OVER
+========================= -->
+
+<div
+    id="gameOverModal"
+    class="modal hidden"
+>
+
+    <div class="modal-box gameover-box">
+
+        <div class="big-icon">
+            💀
+        </div>
+
+        <h2>GAME OVER</h2>
+
+        <p>
+            Monsterlar sizni mag'lub etdi.
+        </p>
+
+        <div class="result">
+
+            <p>
+                👹 Kill:
+                <b id="loseKills">0</b>
+            </p>
+
+            <p>
+                💰 Coin:
+                <b id="loseCoins">0</b>
+            </p>
+
+            <p>
+                ⭐ Level:
+                <b id="loseLevel">1</b>
+            </p>
+
+            <p>
+                🎯 Score:
+                <b id="loseScore">0</b>
+            </p>
+
+        </div>
+
+        <button
+            id="tryAgainBtn"
+            class="main-btn"
+        >
+            🔄 QAYTA URINISH
+        </button>
+
+        <button
+            id="loseMenuBtn"
+            class="secondary-btn"
+        >
+            🏠 MENYU
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
